@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorias - Universo dos Livros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_shared.css">
+  
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">📚 Universo dos Livros</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="livros.html">Livros</a>
+      <a href="categorias.html" class="active">Categorias</a>
+      <a href="contato.html">Contato</a>
+      <a href="carrinho.html">🛒 Carrinho</a>
+    </nav>
+    <div class="auth-bar">
+      <button id="btn-login" class="btn">Entrar</button>
+      <button id="btn-register" class="btn btn-outline">Cadastrar</button>
+      <div id="user-bar">
+        <span id="user-name"></span>
+        <button id="btn-logout">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-title">Entrar</h2>
+      <div id="field-name" style="display:none">
+        <input type="text" id="input-name" placeholder="Seu nome" />
+      </div>
+      <input type="email" id="input-email" placeholder="E-mail" />
+      <input type="password" id="input-password" placeholder="Senha" />
+      <button class="btn-full" id="modal-submit">Entrar</button>
+      <p class="modal-msg" id="modal-msg"></p>
+      <p class="modal-switch" id="modal-switch-text">
+        Não tem conta? <a onclick="openModal('register')">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="page-hero">
+    <h1>📂 Categorias</h1>
+    <p>Encontre seus livros favoritos por gênero</p>
+  </div>
+  <section class="categories-bar">
+    <a href="fantasia.html" class="cat-pill">⚔️ Fantasia</a>
+    <a href="romance.html" class="cat-pill">💕 Romance</a>
+    <a href="terror.html" class="cat-pill">🕷️ Terror</a>
+    <a href="tecnologia.html" class="cat-pill">💻 Tecnologia</a>
+    <a href="classicos.html" class="cat-pill">📖 Clássicos</a>
+    <a href="ficcao.html" class="cat-pill">🚀 Ficção Científica</a>
+    <a href="anime.html" class="cat-pill">🦊 Anime</a>
+  </section>
+  <section class="books">
+    <div class="cards">
+      <a href="fantasia.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1469395446868-fb6a048d5ca3?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">⚔️ Fantasia</a>
+      <a href="romance.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1474932430478-367dbb6832c1?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">💕 Romance</a>
+      <a href="terror.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">🕷️ Terror</a>
+      <a href="tecnologia.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">💻 Tecnologia</a>
+      <a href="classicos.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">📖 Clássicos</a>
+      <a href="ficcao.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">🚀 Ficção Científica</a>
+      <a href="anime.html" class="card" style="text-decoration:none; background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400') center/cover; min-height: 200px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-family:Cinzel,serif; color:#ffb37a; font-weight:bold; border:none;">🦊 Anime</a>
+    </div>
+  </section>
+
+  <footer>
+    <h3>📚 Universo dos Livros</h3>
+    <p>Seu portal para aventuras literárias inesquecíveis.</p>
+  </footer>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Universo dos Livros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_shared.css">
+  <style>
+    .login-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+    .login-box {
+      background: #3a3a3a;
+      border: 1px solid #555;
+      border-radius: 24px;
+      padding: 45px 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-box h2 {
+      font-family: 'Cinzel', serif;
+      color: #ffb37a;
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .login-box .subtitulo {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
+    .tabs {
+      display: flex;
+      background: #2b2b2b;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 28px;
+      gap: 4px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: #aaa;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+    }
+    .tab.active {
+      background: linear-gradient(135deg, #ff8c42, #ff6b00);
+      color: white;
+    }
+    .form-field { margin-bottom: 16px; }
+    .form-field label { display: block; color: #ccc; font-size: 0.88rem; margin-bottom: 6px; }
+    .form-field input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid #555;
+      border-radius: 12px;
+      background: #2b2b2b;
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      outline: none;
+    }
+    .form-field input:focus { border-color: #ff8c42; box-shadow: 0 0 0 3px rgba(255,140,66,0.15); }
+    .form-field input::placeholder { color: #777; }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, #ff8c42, #ff6b00);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+    .msg {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      min-height: 20px;
+    }
+    .msg.erro { color: #ff9d57; }
+    .msg.sucesso { color: #7ddf7d; }
+    .divisor {
+      text-align: center;
+      color: #666;
+      margin: 20px 0;
+      font-size: 0.85rem;
+    }
+    .btn-voltar {
+      display: block;
+      text-align: center;
+      color: #ff9d57;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+    .btn-voltar:hover { color: #ffb37a; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">📚 Universo dos Livros</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="livros.html">Livros</a>
+      <a href="categorias.html">Categorias</a>
+      <a href="contato.html">Contato</a>
+      <a href="carrinho.html">🛒 Carrinho</a>
+    </nav>
+    <div class="auth-bar">
+      <button id="btn-login-header" class="btn">Entrar</button>
+      <button id="btn-register-header" class="btn btn-outline">Cadastrar</button>
+      <div id="user-bar">
+        <span id="user-name"></span>
+        <button id="btn-logout">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="login-section">
+    <div class="login-box">
+      <h2>📚 Bem-vindo!</h2>
+      <p class="subtitulo">Acesse sua conta ou crie uma nova</p>
+
+      <div class="tabs">
+        <button class="tab active" id="tab-login" onclick="switchTab('login')">Entrar</button>
+        <button class="tab" id="tab-register" onclick="switchTab('register')">Cadastrar</button>
+      </div>
+
+      <!-- Formulário Login -->
+      <div id="form-login">
+        <div class="form-field">
+          <label>E-mail</label>
+          <input type="email" id="login-email" placeholder="seu@email.com" />
+        </div>
+        <div class="form-field">
+          <label>Senha</label>
+          <input type="password" id="login-senha" placeholder="••••••••" />
+        </div>
+        <button class="btn-submit" onclick="fazerLogin()">Entrar na conta</button>
+        <p class="msg" id="msg-login"></p>
+      </div>
+
+      <!-- Formulário Cadastro -->
+      <div id="form-register" style="display:none">
+        <div class="form-field">
+          <label>Nome completo</label>
+          <input type="text" id="reg-nome" placeholder="Seu nome" />
+        </div>
+        <div class="form-field">
+          <label>E-mail</label>
+          <input type="email" id="reg-email" placeholder="seu@email.com" />
+        </div>
+        <div class="form-field">
+          <label>Senha</label>
+          <input type="password" id="reg-senha" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <button class="btn-submit" onclick="fazerCadastro()">Criar conta</button>
+        <p class="msg" id="msg-register"></p>
+      </div>
+
+      <a href="index.html" class="btn-voltar">← Voltar para o início</a>
+    </div>
+  </section>
+
+  <footer>
+    <h3>📚 Universo dos Livros</h3>
+    <p>Seu portal para aventuras literárias inesquecíveis.</p>
+  </footer>
+<script src="app.js"></script>
+</body>
+</html>

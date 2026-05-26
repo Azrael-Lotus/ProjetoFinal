@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livros - Universo dos Livros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_shared.css">
+  
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">📚 Universo dos Livros</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="livros.html" class="active">Livros</a>
+      <a href="categorias.html">Categorias</a>
+      <a href="contato.html">Contato</a>
+      <a href="carrinho.html">🛒 Carrinho</a>
+    </nav>
+    <div class="auth-bar">
+      <button id="btn-login" class="btn">Entrar</button>
+      <button id="btn-register" class="btn btn-outline">Cadastrar</button>
+      <div id="user-bar">
+        <span id="user-name"></span>
+        <button id="btn-logout">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-title">Entrar</h2>
+      <div id="field-name" style="display:none">
+        <input type="text" id="input-name" placeholder="Seu nome" />
+      </div>
+      <input type="email" id="input-email" placeholder="E-mail" />
+      <input type="password" id="input-password" placeholder="Senha" />
+      <button class="btn-full" id="modal-submit">Entrar</button>
+      <p class="modal-msg" id="modal-msg"></p>
+      <p class="modal-switch" id="modal-switch-text">
+        Não tem conta? <a onclick="openModal('register')">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="page-hero">
+    <h1>📚 Todos os Livros</h1>
+    <p>Explore nossa coleção completa</p>
+  </div>
+  <section class="books">
+    <div class="cards">
+      <div class="card">
+        <div class="card-badge">🦊 Anime</div>
+        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop" alt="Spy x Family">
+        <div class="card-content">
+          <span class="card-category">Anime</span>
+          <h3>Spy x Family</h3>
+          <p>O espião Twilight precisa formar uma família falsa para sua missão. Mas a filha adotada é telepata e a esposa é uma assassina secreta — sem que nenhum saiba do outro.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">⭐ Destaque</div>
+        <img src="https://images-na.ssl-images-amazon.com/images/I/81iqZ2HHD-L.jpg" alt="Harry Potter">
+        <div class="card-content">
+          <span class="card-category">Fantasia</span>
+          <h3>Harry Potter</h3>
+          <p>Magia, aventura e amizade em Hogwarts.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">🏆 Clássico</div>
+        <img src="imagens/senhordosaneis.png" alt="Senhor dos Anéis" onerror="this.src='https://images.unsplash.com/photo-1469395446868-fb6a048d5ca3?q=80&w=400&auto=format&fit=crop'">
+        <div class="card-content">
+          <span class="card-category">Fantasia</span>
+          <h3>Senhor dos Anéis</h3>
+          <p>Uma aventura épica pela Terra Média.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">💕 Romance</div>
+        <img src="imagens/paratodosgaratosqjaamei.png" alt="Para Todos os Garotos" onerror="this.src='https://images.unsplash.com/photo-1474932430478-367dbb6832c1?q=80&w=400&auto=format&fit=crop'">
+        <div class="card-content">
+          <span class="card-category">Romance</span>
+          <h3>Para Todos os Garotos que Já Amei</h3>
+          <p>Uma comédia romântica adolescente sobre o primeiro amor.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        
+        <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=400&auto=format&fit=crop" alt="Código Limpo">
+        <div class="card-content">
+          <span class="card-category">Tecnologia</span>
+          <h3>Código Limpo</h3>
+          <p>Aprenda boas práticas de programação com Robert C. Martin.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        
+        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&auto=format&fit=crop" alt="1984">
+        <div class="card-content">
+          <span class="card-category">Ficção Científica</span>
+          <h3>1984</h3>
+          <p>O clássico distópico de George Orwell sobre vigilância e controle.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        
+        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400&auto=format&fit=crop" alt="Drácula">
+        <div class="card-content">
+          <span class="card-category">Terror</span>
+          <h3>Drácula</h3>
+          <p>O clássico do terror gótico de Bram Stoker que assombra gerações.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">📖 Clássico</div>
+        <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=400&auto=format&fit=crop" alt="Dom Quixote">
+        <div class="card-content">
+          <span class="card-category">Clássicos</span>
+          <h3>Dom Quixote</h3>
+          <p>O cavaleiro errante de Cervantes numa aventura épica e atemporal.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">🚀 Ficção</div>
+        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?q=80&w=400&auto=format&fit=crop" alt="Fundação">
+        <div class="card-content">
+          <span class="card-category">Ficção Científica</span>
+          <h3>Fundação</h3>
+          <p>A saga de Isaac Asimov sobre o colapso e renascimento de uma civilização galáctica.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>📚 Universo dos Livros</h3>
+    <p>Seu portal para aventuras literárias inesquecíveis.</p>
+  </footer>
+<script src="app.js"></script>
+</body>
+</html>

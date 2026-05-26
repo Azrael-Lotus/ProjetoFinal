@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato - Universo dos Livros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_shared.css">
+  <style>
+    .contato-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    @media(max-width: 750px) {
+      .contato-grid { grid-template-columns: 1fr; }
+    }
+
+    .info-box, .form-box {
+      background: #3a3a3a;
+      border-radius: 20px;
+      padding: 36px;
+      border: 1px solid #555;
+    }
+
+    .info-box h2, .form-box h2 {
+      font-family: 'Cinzel', serif;
+      color: #ffb37a;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+    .info-item .icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .info-item strong { display: block; color: #ffb37a; margin-bottom: 4px; }
+    .info-item span, .info-item a { color: #ccc; text-decoration: none; font-size: 0.95rem; }
+    .info-item a:hover { color: #ff9d57; }
+
+    .form-field { margin-bottom: 18px; }
+    .form-field label { display: block; color: #ccc; font-size: 0.88rem; margin-bottom: 6px; }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid #555;
+      border-radius: 12px;
+      background: #2b2b2b;
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      border-color: #ff8c42;
+      box-shadow: 0 0 0 3px rgba(255,140,66,0.15);
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: #777; }
+    .form-field textarea { resize: vertical; min-height: 130px; }
+    .form-field select option { background: #2b2b2b; }
+
+    .botoes-envio {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-enviar {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ff8c42, #ff6b00);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .btn-enviar:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    .btn-whatsapp {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Lato', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-whatsapp:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-whatsapp svg { width: 20px; height: 20px; fill: white; flex-shrink: 0; }
+
+    .divisor-ou {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #666;
+      font-size: 0.85rem;
+    }
+    .divisor-ou::before,
+    .divisor-ou::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #555;
+    }
+
+    .msg-form {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      min-height: 20px;
+      color: #7ddf7d;
+    }
+    .msg-form.erro { color: #ff9d57; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">📚 Universo dos Livros</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="livros.html">Livros</a>
+      <a href="categorias.html">Categorias</a>
+      <a href="contato.html" class="active">Contato</a>
+      <a href="carrinho.html">🛒 Carrinho</a>
+    </nav>
+    <div class="auth-bar">
+      <button id="btn-login" class="btn">Entrar</button>
+      <button id="btn-register" class="btn btn-outline">Cadastrar</button>
+      <div id="user-bar">
+        <span id="user-name"></span>
+        <button id="btn-logout">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-title">Entrar</h2>
+      <div id="field-name" style="display:none">
+        <input type="text" id="input-name" placeholder="Seu nome" />
+      </div>
+      <input type="email" id="input-email" placeholder="E-mail" />
+      <input type="password" id="input-password" placeholder="Senha" />
+      <button class="btn-full" id="modal-submit">Entrar</button>
+      <p class="modal-msg" id="modal-msg"></p>
+      <p class="modal-switch" id="modal-switch-text">
+        Não tem conta? <a onclick="openModal('register')">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="page-hero">
+    <h1>📬 Contato</h1>
+    <p>Entre em contato com a nossa equipe</p>
+  </div>
+
+  <section class="books">
+    <div class="contato-grid">
+      <!-- Informações -->
+      <div class="info-box">
+        <h2>Fale Conosco</h2>
+        <p style="color:#ccc; margin-bottom:24px; line-height:1.7;">Tem dúvidas, sugestões ou precisa de ajuda? Entre em contato pelos canais abaixo ou use o formulário.</p>
+
+        <div class="info-item">
+          <span class="icon">📧</span>
+          <div>
+            <strong>E-mail</strong>
+            <a href="mailto:contato@universodoslivros.com">contato@universodoslivros.com</a>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">📞</span>
+          <div>
+            <strong>Telefone</strong>
+            <span>(83) 9109-9808</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">💬</span>
+          <div>
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/5583910999808" target="_blank">(83) 9109-9808</a>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">📍</span>
+          <div>
+            <strong>Endereço</strong>
+            <span>Rua dos Livros, 123 — São Paulo, SP</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🕐</span>
+          <div>
+            <strong>Horário de Atendimento</strong>
+            <span>Segunda a Sexta, das 9h às 18h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulário -->
+      <div class="form-box">
+        <h2>Enviar Mensagem</h2>
+
+        <div class="form-field">
+          <label>Nome completo</label>
+          <input type="text" id="ct-nome" placeholder="Seu nome" />
+        </div>
+        <div class="form-field">
+          <label>E-mail</label>
+          <input type="email" id="ct-email" placeholder="seu@email.com" />
+        </div>
+        <div class="form-field">
+          <label>Assunto</label>
+          <select id="ct-assunto">
+            <option value="">Selecione um assunto...</option>
+            <option>Dúvida sobre pedido</option>
+            <option>Sugestão de livro</option>
+            <option>Problema no site</option>
+            <option>Parceria</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Mensagem</label>
+          <textarea id="ct-mensagem" placeholder="Escreva sua mensagem aqui..."></textarea>
+        </div>
+
+        <div class="botoes-envio">
+          <button class="btn-enviar" onclick="enviarMensagem()">Enviar Mensagem ✉️</button>
+
+          <div class="divisor-ou">ou</div>
+
+          <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Enviar pelo WhatsApp
+          </button>
+        </div>
+
+        <p class="msg-form" id="msg-form"></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>📚 Universo dos Livros</h3>
+    <p>Seu portal para aventuras literárias inesquecíveis.</p>
+  </footer>
+<script src="app.js"></script>
+</body>
+</html>

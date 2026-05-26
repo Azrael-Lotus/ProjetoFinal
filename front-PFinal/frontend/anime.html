@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime - Universo dos Livros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_shared.css">
+  
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">📚 Universo dos Livros</a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="livros.html">Livros</a>
+      <a href="categorias.html" class="active">Categorias</a>
+      <a href="contato.html">Contato</a>
+      <a href="carrinho.html">🛒 Carrinho</a>
+    </nav>
+    <div class="auth-bar">
+      <button id="btn-login" class="btn">Entrar</button>
+      <button id="btn-register" class="btn btn-outline">Cadastrar</button>
+      <div id="user-bar">
+        <span id="user-name"></span>
+        <button id="btn-logout">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-title">Entrar</h2>
+      <div id="field-name" style="display:none">
+        <input type="text" id="input-name" placeholder="Seu nome" />
+      </div>
+      <input type="email" id="input-email" placeholder="E-mail" />
+      <input type="password" id="input-password" placeholder="Senha" />
+      <button class="btn-full" id="modal-submit">Entrar</button>
+      <p class="modal-msg" id="modal-msg"></p>
+      <p class="modal-switch" id="modal-switch-text">
+        Não tem conta? <a onclick="openModal('register')">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="page-hero" style="background-image: linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1600');">
+    <h1>🦊 Anime / Mangá</h1>
+    <p>As melhores obras do Japão</p>
+  </div>
+  <section class="books">
+    <div class="cards">
+      <div class="card">
+        <div class="card-badge">⭐ Destaque</div>
+        <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop" alt="Spy x Family">
+        <div class="card-content">
+          <span class="card-category">Anime</span>
+          <h3>Spy x Family</h3>
+          <p>O espião Twilight precisa montar uma família falsa: a filha adotada é telepata e a esposa é uma assassina. Nenhum sabe do outro.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-badge">🔥 Popular</div>
+        <img src="https://images.unsplash.com/photo-1608889175157-4a9a97a3df23?q=80&w=400&auto=format&fit=crop" alt="Demon Slayer">
+        <div class="card-content">
+          <span class="card-category">Anime</span>
+          <h3>Demon Slayer — Kimetsu no Yaiba</h3>
+          <p>Tanjiro parte em busca de uma cura para transformar sua irmã de volta em humana após ser atacada por um demônio.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+      <div class="card">
+        
+        <img src="https://images.unsplash.com/photo-1601850494422-3cf14624b0b3?q=80&w=400&auto=format&fit=crop" alt="Fullmetal Alchemist">
+        <div class="card-content">
+          <span class="card-category">Anime</span>
+          <h3>Fullmetal Alchemist</h3>
+          <p>Dois irmãos usam a alquimia para tentar ressuscitar a mãe e pagam um preço alto demais, iniciando uma jornada épica.</p>
+          <p class="preco">R$ 45,90</p>
+          <button class="btn-comprar">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3>📚 Universo dos Livros</h3>
+    <p>Seu portal para aventuras literárias inesquecíveis.</p>
+  </footer>
+<script src="app.js"></script>
+</body>
+</html>
