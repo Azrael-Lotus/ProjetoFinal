@@ -1,4 +1,4 @@
-git const request   = require('supertest');
+const request   = require('supertest');
 const app       = require('../src/app.js');
 const sequelize = require('../src/config/database');
 

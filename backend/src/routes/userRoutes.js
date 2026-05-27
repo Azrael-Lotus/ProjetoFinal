@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const ctrl = require('../controllers/userController');
+// Importações necessárias para definir as rotas de usuários
+const router = require('express').Router(); // Cria um novo router Express
+const ctrl = require('../controllers/userController'); // Importa os controladores de usuário (CRUD)
 
 
 /**
