@@ -296,5 +296,134 @@ const bindCartButtons = () => {
   });
 };
 
+const getCart = () => JSON.parse(localStorage.getItem('carrinho')) || [];
+const setCart = (carrinho) => localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+const formatCurrency = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+const parsePrice = (priceString) => {
+  if (!priceString) return 0;
+  const numeric = priceString.replace(/[R$\s\.]/g, '').replace(',', '.');
+  const value = parseFloat(numeric);
+  return Number.isNaN(value) ? 0 : value;
+};
+
+const atualizarResumo = (carrinho) => {
+  const painelResumo = document.getElementById('painel-resumo');
+  const valorSubtotal = document.getElementById('valor-subtotal');
+  const valorTotal = document.getElementById('valor-total');
+  const listaCarrinho = document.getElementById('lista-carrinho');
+  if (!painelResumo || !valorSubtotal || !valorTotal || !listaCarrinho) return;
+
+  if (carrinho.length === 0) {
+    listaCarrinho.innerHTML = `
+      <div class="carrinho-vazio">
+        <div class="icon">🛒</div>
+        <h3>Seu carrinho está vazio</h3>
+        <p>Adicione livros na página de catálogo para vê-los aqui.</p>
+      </div>
+    `;
+    painelResumo.style.display = 'none';
+    return;
+  }
+
+  painelResumo.style.display = 'block';
+  const subtotal = carrinho.reduce((sum, item) => sum + parsePrice(item.preco) * item.quantidade, 0);
+  valorSubtotal.textContent = formatCurrency(subtotal);
+  valorTotal.textContent = formatCurrency(subtotal + 15);
+};
+
+const renderCartItem = (item, index) => {
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'item-carrinho';
+  itemDiv.innerHTML = `
+    <img src="${item.imagem}" alt="${item.nome}" />
+    <div class="item-info">
+      <h3>${item.nome}</h3>
+      <p class="item-preco">${formatCurrency(parsePrice(item.preco) * item.quantidade)}</p>
+      <div class="qty-controls">
+        <button type="button" onclick="alterarQuantidadeCarrinho(${index}, -1)">-</button>
+        <span>${item.quantidade}</span>
+        <button type="button" onclick="alterarQuantidadeCarrinho(${index}, 1)">+</button>
+      </div>
+    </div>
+    <button class="btn-remover" type="button" onclick="removerItemCarrinho(${index})">Remover</button>
+  `;
+  return itemDiv;
+};
+
+const renderCart = () => {
+  const listaCarrinho = document.getElementById('lista-carrinho');
+  if (!listaCarrinho) return;
+
+  const carrinho = getCart();
+  listaCarrinho.innerHTML = '';
+
+  if (carrinho.length === 0) {
+    atualizarResumo(carrinho);
+    return;
+  }
+
+  carrinho.forEach((item, index) => {
+    listaCarrinho.appendChild(renderCartItem(item, index));
+  });
+
+  atualizarResumo(carrinho);
+};
+
+const showToast = (mensagem) => {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = mensagem;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+};
+
+const alterarQuantidadeCarrinho = (index, delta) => {
+  const carrinho = getCart();
+  if (!carrinho[index]) return;
+
+  carrinho[index].quantidade += delta;
+  if (carrinho[index].quantidade < 1) {
+    carrinho.splice(index, 1);
+  }
+
+  setCart(carrinho);
+  renderCart();
+};
+
+const removerItemCarrinho = (index) => {
+  const carrinho = getCart();
+  if (!carrinho[index]) return;
+
+  carrinho.splice(index, 1);
+  setCart(carrinho);
+  renderCart();
+};
+
+const limparCarrinho = () => {
+  setCart([]);
+  renderCart();
+  showToast('Carrinho limpo com sucesso.');
+};
+
+const finalizarCompra = () => {
+  const carrinho = getCart();
+  if (carrinho.length === 0) {
+    showToast('Adicione livros ao carrinho antes de finalizar.');
+    return;
+  }
+
+  setCart([]);
+  renderCart();
+  showToast('Compra finalizada com sucesso!');
+};
+
+window.alterarQuantidadeCarrinho = alterarQuantidadeCarrinho;
+window.removerItemCarrinho = removerItemCarrinho;
+window.limparCarrinho = limparCarrinho;
+window.finalizarCompra = finalizarCompra;
+
 // Vincula os botões ao carregar a página
 bindCartButtons();
+renderCart();
