@@ -118,7 +118,11 @@ const safeFetch = async (url, options) => {
     }
     return data;
   } catch (error) {
-    throw new Error(error.message || 'Erro desconhecido.');
+    const message = error.message || 'Erro desconhecido.';
+    if (message.toLowerCase().includes('failed to fetch') || message.toLowerCase().includes('networkerror')) {
+      throw new Error('Não foi possível conectar ao backend. Verifique se o servidor está rodando em http://localhost:3000.');
+    }
+    throw new Error(message);
   }
 };
 
@@ -246,6 +250,82 @@ if (modalSubmit) {
 
 // Verifica login ao carregar a página
 checkLogin();
+
+const showPageMessage = (elementId, message, type) => {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  element.textContent = message;
+  element.className = `msg ${type}`.trim();
+};
+
+const switchTab = (tab) => {
+  const formLogin = document.getElementById('form-login');
+  const formRegister = document.getElementById('form-register');
+  const tabLogin = document.getElementById('tab-login');
+  const tabRegister = document.getElementById('tab-register');
+  if (!formLogin || !formRegister || !tabLogin || !tabRegister) return;
+
+  if (tab === 'register') {
+    formLogin.style.display = 'none';
+    formRegister.style.display = 'block';
+    tabLogin.classList.remove('active');
+    tabRegister.classList.add('active');
+  } else {
+    formLogin.style.display = 'block';
+    formRegister.style.display = 'none';
+    tabLogin.classList.add('active');
+    tabRegister.classList.remove('active');
+  }
+};
+
+const fazerLogin = async () => {
+  showPageMessage('msg-login', '', '');
+  const email = document.getElementById('login-email')?.value.trim() || '';
+  const senha = document.getElementById('login-senha')?.value || '';
+  if (!email || !senha) {
+    showPageMessage('msg-login', 'Preencha e-mail e senha.', 'erro');
+    return;
+  }
+
+  try {
+    const result = await loginUser(email, senha);
+    setLoggedUser({ nome: result.user.nome, email: result.user.email, token: result.token });
+    checkLogin();
+    showPageMessage('msg-login', 'Login realizado com sucesso!', 'sucesso');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1000);
+  } catch (error) {
+    showPageMessage('msg-login', error.message || 'Erro ao fazer login.', 'erro');
+  }
+};
+
+const fazerCadastro = async () => {
+  showPageMessage('msg-register', '', '');
+  const nome = document.getElementById('reg-nome')?.value.trim() || '';
+  const email = document.getElementById('reg-email')?.value.trim() || '';
+  const senha = document.getElementById('reg-senha')?.value || '';
+  if (!nome || !email || !senha) {
+    showPageMessage('msg-register', 'Preencha todos os campos.', 'erro');
+    return;
+  }
+
+  try {
+    const result = await registerUser(nome, email, senha);
+    setLoggedUser({ nome: result.user.nome, email: result.user.email, token: result.token });
+    checkLogin();
+    showPageMessage('msg-register', 'Conta criada com sucesso!', 'sucesso');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1000);
+  } catch (error) {
+    showPageMessage('msg-register', error.message || 'Erro ao cadastrar usuário.', 'erro');
+  }
+};
+
+window.switchTab = switchTab;
+window.fazerLogin = fazerLogin;
+window.fazerCadastro = fazerCadastro;
 
 // ============================================
 // FUNÇÕES DE CARRINHO DE COMPRAS
