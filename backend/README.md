@@ -1,11 +1,30 @@
 # Biblioteca API
 
-API de usuários com Node.js, Express e Sequelize.
+API REST para gerenciamento de usuários construída com Node.js, Express e Sequelize.
 
-## Configuração
+## Principais recursos
 
-1. Copie o arquivo `.env` na raiz do projeto.
-2. Ajuste as variáveis de ambiente para o banco de dados MySQL:
+- CRUD completo para `User` (listar, buscar, criar, atualizar, remover)
+- Validação de dados via Sequelize (`isEmail`, `allowNull`, etc.)
+- Tratamento de erros centralizado (`src/middlewares/errorHandler.js`)
+- Documentação de API com Swagger disponível em `/api-docs`
+
+## Tecnologias
+
+- Node.js
+- Express
+- Sequelize (MySQL)
+- JWT para autenticação
+- Swagger (swagger-jsdoc + swagger-ui-express)
+
+## Pré-requisitos
+
+- Node.js 18+ (ou compatível)
+- MySQL em execução
+
+## Variáveis de ambiente
+
+Copie `.env.example` para `.env` e ajuste os valores:
 
 ```env
 DB_HOST=localhost
@@ -14,7 +33,10 @@ DB_NAME=biblioteca
 DB_USER=root
 DB_PASS=
 PORT=3000
+JWT_SECRET=sua_chave_secreta_jwt_aqui
 ```
+
+O projeto já inclui `.env.example` na raiz do backend.
 
 ## Instalação
 
@@ -22,24 +44,81 @@ PORT=3000
 npm install
 ```
 
-## Execução em desenvolvimento / produção
+## Executando
+
+- Iniciar em produção/development (conforme `package.json`):
 
 ```bash
 npm start
 ```
 
+- Iniciar com `nodemon` (recomendado para desenvolvimento):
+
+```bash
+npx nodemon src/server.js
+```
+
+Ao subir, o servidor sincroniza os modelos com o banco via `sequelize.sync()`.
+
+## Documentação da API (Swagger)
+
+A documentação interativa está disponível em:
+
+```
+http://localhost:3000/api-docs
+```
+
+## Endpoints principais
+
+- POST /auth/register — registra usuário
+	- Body: `{ "nome": "...", "email": "...", "senha": "..." }`
+- POST /auth/login — autentica e retorna token
+	- Body: `{ "email": "...", "senha": "..." }`
+
+- GET /users — lista usuários
+- GET /users/:id — busca usuário por ID
+- POST /users — cria usuário
+- PUT /users/:id — atualiza usuário
+- DELETE /users/:id — remove usuário
+
+Exemplo rápido (registro):
+
+```bash
+curl -X POST http://localhost:3000/auth/register \
+	-H "Content-Type: application/json" \
+	-d '{"nome":"João","email":"joao@example.com","senha":"senha123"}'
+```
+
+Exemplo login:
+
+```bash
+curl -X POST http://localhost:3000/auth/login \
+	-H "Content-Type: application/json" \
+	-d '{"email":"joao@example.com","senha":"senha123"}'
+```
+
 ## Testes
+
+Os testes usam `jest` e `supertest`.
 
 ```bash
 npm test
 ```
 
-## Estrutura relevante
+## Tratamento de erros e validação
 
-- `src/app.js` - define o app Express e middlewares
-- `src/server.js` - inicializa o servidor e sincroniza o banco
-- `src/config/database.js` - configuração do Sequelize e carregamento do `.env`
-- `src/routes/userRoutes.js` - rotas de usuário
-- `src/controllers/userController.js` - lógica CRUD de usuário
-- `src/models/User.js` - modelo Sequelize do usuário
-- `tests/user.test.js` - testes de integração com Supertest
+- Existe um middleware central em `src/middlewares/errorHandler.js` que padroniza respostas de erro
+- Erros do Sequelize (validação, constraint única) são tratados especificamente
+
+## Observações sobre banco de dados
+
+- O projeto utiliza `sequelize.sync({ alter: true })` no `src/server.js` para aplicar alterações de modelo automaticamente.
+- Para produção recomenda-se usar migrações controladas em vez de `sync({ alter: true })`.
+
+## Contribuição
+
+- Abra uma issue para discutir mudanças maiores
+- Pull requests são bem-vindos
+
+---
+Se quiser, atualizo também o README raiz do repositório para unificar front e backend.
