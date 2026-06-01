@@ -1,5 +1,6 @@
 // Importações necessárias para iniciar o servidor
 const sequelize = require('./config/database'); // Configuração do banco de dados
+require('./models'); // Carrega todos os modelos e associações
 const app = require('./app'); // Configuração da aplicação Express
 
 // Define a porta do servidor (usa variável de ambiente ou porta padrão 3000)

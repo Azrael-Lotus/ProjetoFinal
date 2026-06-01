@@ -114,6 +114,10 @@ npm test
 
 - O projeto utiliza `sequelize.sync({ alter: true })` no `src/server.js` para aplicar alterações de modelo automaticamente.
 - Para produção recomenda-se usar migrações controladas em vez de `sync({ alter: true })`.
+- O repositório inclui scripts e documentação de banco de dados:
+  - `backend/BribriotrecaSQL.sql` — script DDL de criação de tabelas
+  - `backend/dml.sql` — script DML com dados de exemplo
+  - `backend/database-model.md` — modelo lógico e DER/MER com diagrama
 
 ## Contribuição
 
