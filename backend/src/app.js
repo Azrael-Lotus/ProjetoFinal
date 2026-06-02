@@ -7,6 +7,9 @@ const sequelize = require('./config/database');
 require('./models');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const bookRoutes = require('./routes/bookRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const { errorHandler } = require('./middlewares/errorHandler');
 
 // Cria a aplicação Express
@@ -27,6 +30,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/auth', authRoutes);
 // /users: endpoints de gerenciamento de usuários (CRUD)
 app.use('/users', userRoutes);
+// /categories: endpoints de categoria de livros
+app.use('/categories', categoryRoutes);
+// /books: endpoints de livros
+app.use('/books', bookRoutes);
+// /orders: endpoints de pedidos
+app.use('/orders', orderRoutes);
 
 // Middleware centralizado de tratamento de erros
 // Deve ser o último middleware registrado

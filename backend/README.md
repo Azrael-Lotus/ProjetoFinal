@@ -81,6 +81,23 @@ http://localhost:3000/api-docs
 - PUT /users/:id — atualiza usuário
 - DELETE /users/:id — remove usuário
 
+- GET /categories — lista categorias
+- GET /categories/:id — busca categoria por ID
+- POST /categories — cria categoria
+- PUT /categories/:id — atualiza categoria
+- DELETE /categories/:id — remove categoria
+
+- GET /books — lista livros
+- GET /books/:id — busca livro por ID
+- POST /books — cria livro
+- PUT /books/:id — atualiza livro
+- DELETE /books/:id — remove livro
+
+- GET /orders — lista pedidos
+- GET /orders/:id — busca pedido por ID
+- POST /orders — cria pedido
+- DELETE /orders/:id — remove pedido
+
 Exemplo rápido (registro):
 
 ```bash

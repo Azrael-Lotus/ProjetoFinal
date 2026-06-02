@@ -9,10 +9,7 @@ const { catchAsync, AppError } = require('../middlewares/errorHandler');
  */
 exports.getAll = catchAsync(async (req, res) => {
   const users = await User.findAll();
-  res.json({
-    success: true,
-    data: users
-  });
+  res.json(users);
 });
 
 /**
@@ -27,10 +24,7 @@ exports.getById = catchAsync(async (req, res, next) => {
     return next(new AppError('Usuário não encontrado', 404));
   }
   
-  res.json({
-    success: true,
-    data: user
-  });
+  res.json(user);
 });
 
 /**
@@ -41,11 +35,7 @@ exports.getById = catchAsync(async (req, res, next) => {
 exports.create = catchAsync(async (req, res) => {
   const user = await User.create(req.body);
   
-  res.status(201).json({
-    success: true,
-    message: 'Usuário criado com sucesso',
-    data: user
-  });
+  res.status(201).json(user);
 });
 
 /**
@@ -62,11 +52,7 @@ exports.update = catchAsync(async (req, res, next) => {
   
   await user.update(req.body);
   
-  res.json({
-    success: true,
-    message: 'Usuário atualizado com sucesso',
-    data: user
-  });
+  res.json(user);
 });
 
 /**
@@ -83,9 +69,6 @@ exports.remove = catchAsync(async (req, res, next) => {
   
   await user.destroy();
   
-  res.json({
-    success: true,
-    message: 'Usuário removido com sucesso'
-  });
+  res.json({ message: 'Usuário removido com sucesso' });
 });
 
