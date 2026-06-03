@@ -2,11 +2,19 @@ const { Order, OrderItem, Book, User } = require('../models');
 const sequelize = require('../config/database');
 const { catchAsync, AppError } = require('../middlewares/errorHandler');
 
+/**
+ * Lista todos os pedidos com os itens e o usuário associado
+ * GET /orders
+ */
 exports.getAll = catchAsync(async (req, res) => {
   const orders = await Order.findAll({ include: ['user', { model: OrderItem, as: 'items', include: ['book'] }] });
   res.json({ success: true, data: orders });
 });
 
+/**
+ * Busca um pedido pelo ID
+ * GET /orders/:id
+ */
 exports.getById = catchAsync(async (req, res, next) => {
   const order = await Order.findByPk(req.params.id, { include: ['user', { model: OrderItem, as: 'items', include: ['book'] }] });
   if (!order) {
@@ -15,6 +23,10 @@ exports.getById = catchAsync(async (req, res, next) => {
   res.json({ success: true, data: order });
 });
 
+/**
+ * Cria um novo pedido com itens
+ * POST /orders
+ */
 exports.create = catchAsync(async (req, res, next) => {
   const { userId, items = [], status } = req.body;
   if (!userId || !Array.isArray(items) || items.length === 0) {
@@ -51,6 +63,10 @@ exports.create = catchAsync(async (req, res, next) => {
   res.status(201).json({ success: true, data: result });
 });
 
+/**
+ * Remove um pedido pelo ID
+ * DELETE /orders/:id
+ */
 exports.remove = catchAsync(async (req, res, next) => {
   const order = await Order.findByPk(req.params.id);
   if (!order) {

@@ -21,6 +21,10 @@ const userBar = document.getElementById('user-bar');                  // Barra c
 const userNameSpan = document.getElementById('user-name');            // Nome do usuário logado
 const btnLogout = document.getElementById('btn-logout');              // Botão de logout
 
+// Botões do cabeçalho da página de login, usados na própria página de login (sem modal)
+const btnLoginHeader = document.getElementById('btn-login-header');    // Alterna para aba de login
+const btnRegisterHeader = document.getElementById('btn-register-header'); // Alterna para aba de cadastro
+
 // ============================================
 // FUNÇÕES DE GERENCIAMENTO DE MENSAGENS E USUÁRIO
 // ============================================
@@ -177,6 +181,10 @@ window.addEventListener('click', (e) => {
   }
 });
 
+// Se a página atual é a página de login, alterna as abas via cabeçalho
+if (btnLoginHeader) btnLoginHeader.addEventListener('click', () => switchTab('login'));
+if (btnRegisterHeader) btnRegisterHeader.addEventListener('click', () => switchTab('register'));
+
 // Realiza logout ao clicar no botão
 if (btnLogout) {
   btnLogout.addEventListener('click', () => {
@@ -251,6 +259,16 @@ if (modalSubmit) {
 // Verifica login ao carregar a página
 checkLogin();
 
+// ============================================
+// FUNÇÕES DE LOGIN E REGISTRO NA PÁGINA
+// ============================================
+
+/**
+ * Mostra mensagem de status em uma área da página.
+ * @param {string} elementId - ID do elemento que exibirá a mensagem
+ * @param {string} message - Texto da mensagem
+ * @param {string} type - Tipo de mensagem ('erro' ou 'sucesso')
+ */
 const showPageMessage = (elementId, message, type) => {
   const element = document.getElementById(elementId);
   if (!element) return;
@@ -258,6 +276,10 @@ const showPageMessage = (elementId, message, type) => {
   element.className = `msg ${type}`.trim();
 };
 
+/**
+ * Alterna entre as abas de login e registro na página de login.
+ * @param {string} tab - 'login' ou 'register'
+ */
 const switchTab = (tab) => {
   const formLogin = document.getElementById('form-login');
   const formRegister = document.getElementById('form-register');
@@ -278,6 +300,9 @@ const switchTab = (tab) => {
   }
 };
 
+/**
+ * Realiza o login do usuário usando o endpoint de autenticação.
+ */
 const fazerLogin = async () => {
   showPageMessage('msg-login', '', '');
   const email = document.getElementById('login-email')?.value.trim() || '';
@@ -300,6 +325,9 @@ const fazerLogin = async () => {
   }
 };
 
+/**
+ * Registra um novo usuário usando o endpoint de autenticação.
+ */
 const fazerCadastro = async () => {
   showPageMessage('msg-register', '', '');
   const nome = document.getElementById('reg-nome')?.value.trim() || '';
@@ -323,6 +351,7 @@ const fazerCadastro = async () => {
   }
 };
 
+// Expõe funções globais para o uso de onclick direto no HTML
 window.switchTab = switchTab;
 window.fazerLogin = fazerLogin;
 window.fazerCadastro = fazerCadastro;
@@ -376,11 +405,34 @@ const bindCartButtons = () => {
   });
 };
 
+// ============================================
+// UTILITÁRIOS DO CARRINHO
+// ============================================
+
+/**
+ * Retorna o carrinho atual do localStorage.
+ * @returns {Array} Lista de itens do carrinho
+ */
 const getCart = () => JSON.parse(localStorage.getItem('carrinho')) || [];
+
+/**
+ * Salva a lista de itens do carrinho no localStorage.
+ * @param {Array} carrinho - Lista de itens do carrinho
+ */
 const setCart = (carrinho) => localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
+/**
+ * Formata número para formato de moeda BRL.
+ * @param {number} value - Valor numérico a ser formatado
+ * @returns {string} Valor formatado
+ */
 const formatCurrency = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+/**
+ * Converte uma string de preço em número.
+ * @param {string} priceString - Texto do preço, ex: 'R$ 19,90'
+ * @returns {number} Valor numérico
+ */
 const parsePrice = (priceString) => {
   if (!priceString) return 0;
   const numeric = priceString.replace(/[R$\s\.]/g, '').replace(',', '.');
@@ -388,6 +440,11 @@ const parsePrice = (priceString) => {
   return Number.isNaN(value) ? 0 : value;
 };
 
+/**
+ * Atualiza o resumo do carrinho na página de carrinho.
+ * Exibe subtotal, total e mensagem de carrinho vazio.
+ * @param {Array} carrinho - Lista de itens do carrinho
+ */
 const atualizarResumo = (carrinho) => {
   const painelResumo = document.getElementById('painel-resumo');
   const valorSubtotal = document.getElementById('valor-subtotal');
@@ -413,6 +470,12 @@ const atualizarResumo = (carrinho) => {
   valorTotal.textContent = formatCurrency(subtotal + 15);
 };
 
+/**
+ * Cria o HTML de um item do carrinho.
+ * @param {Object} item - Item do carrinho
+ * @param {number} index - Índice do item no carrinho
+ * @returns {HTMLDivElement} Elemento do item
+ */
 const renderCartItem = (item, index) => {
   const itemDiv = document.createElement('div');
   itemDiv.className = 'item-carrinho';
@@ -432,6 +495,9 @@ const renderCartItem = (item, index) => {
   return itemDiv;
 };
 
+/**
+ * Renderiza todos os itens do carrinho na página.
+ */
 const renderCart = () => {
   const listaCarrinho = document.getElementById('lista-carrinho');
   if (!listaCarrinho) return;
@@ -451,6 +517,10 @@ const renderCart = () => {
   atualizarResumo(carrinho);
 };
 
+/**
+ * Mostra um toast simples na tela.
+ * @param {string} mensagem - Texto do toast
+ */
 const showToast = (mensagem) => {
   const toast = document.getElementById('toast');
   if (!toast) return;
@@ -459,6 +529,11 @@ const showToast = (mensagem) => {
   setTimeout(() => toast.classList.remove('show'), 2000);
 };
 
+/**
+ * Altera a quantidade de um item no carrinho.
+ * @param {number} index - Índice do item no carrinho
+ * @param {number} delta - Incremento ou decremento da quantidade
+ */
 const alterarQuantidadeCarrinho = (index, delta) => {
   const carrinho = getCart();
   if (!carrinho[index]) return;
@@ -472,6 +547,10 @@ const alterarQuantidadeCarrinho = (index, delta) => {
   renderCart();
 };
 
+/**
+ * Remove um item do carrinho pelo índice.
+ * @param {number} index - Índice do item a remover
+ */
 const removerItemCarrinho = (index) => {
   const carrinho = getCart();
   if (!carrinho[index]) return;
@@ -481,12 +560,18 @@ const removerItemCarrinho = (index) => {
   renderCart();
 };
 
+/**
+ * Limpa todo o carrinho.
+ */
 const limparCarrinho = () => {
   setCart([]);
   renderCart();
   showToast('Carrinho limpo com sucesso.');
 };
 
+/**
+ * Finaliza a compra e esvazia o carrinho.
+ */
 const finalizarCompra = () => {
   const carrinho = getCart();
   if (carrinho.length === 0) {
